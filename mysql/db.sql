@@ -107,3 +107,12 @@ select products.name, products.description, products.category_id,
 products.price, products.quantity, product_category.name
 from products 
 inner join product_category on products.category_id = product_category.id;
+
+select users.username, users.first_name, users.last_name, 
+user_address.street_address, user_address.city, user_address.postal_code, user_address.country
+from users 
+inner join user_address on users.id = user_address.user_id;
+
+
+
+

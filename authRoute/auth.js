@@ -3,6 +3,14 @@ const express = require("express");
 const router = express.Router();
 const db = require("../mysql/dbConfig");
 
+router.get("/getLoggedInUser", (request,response)=>{
+    if(request.session.loggedin){
+        response.send({username: request.session.username, userId: request.session.userId})
+    }else{
+        response.send({Status: "User not authorized"});
+    }
+})
+
 router.post("/login", (request,response)=>{
     let username = request.body.username;
     let password = request.body.password;
