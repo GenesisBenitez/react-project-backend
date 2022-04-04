@@ -4,21 +4,23 @@ const router = express.Router();
 const db = require("../mysql/dbConfig");
 
 router.get("/getLoggedInUser", (request,response)=>{
-    if(request.session.loggedin){
-        response.send({username: request.session.username, userId: request.session.userId})
+    if(request.session.loggedIn){
+        response.send({username: request.session.username, userId: request.session.userId, loggedIn: request.session.loggedIn})
     }else{
-        response.send({Status: "User not authorized"});
+        request.session.loggedIn = false;
+        response.send({loggedIn: request.session.loggedIn});
     }
 })
 
 router.post("/login", (request,response)=>{
     let username = request.body.username;
     let password = request.body.password;
+    console.log(username,password)
     if(username && password){
         db.query(`select * from users where username = ? AND password = ?`, [username, password], (err,results) =>{
             if(err) throw err;
             if(results.length > 0){
-            request.session.loggedin = true;
+            request.session.loggedIn = true;
             request.session.username = username;
             console.log(results[0]);
             if(results != undefined){
@@ -26,7 +28,8 @@ router.post("/login", (request,response)=>{
             }            
             response.end("User Successfully logged in!");
          }else{
-            response.send("User not authorized");
+            response.session.loggedIn = false;
+            response.send({loggedIn: request.session.loggedIn});
             }
         })
     }

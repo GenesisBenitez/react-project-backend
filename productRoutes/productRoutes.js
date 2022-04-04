@@ -27,18 +27,15 @@ router.post("/addProduct", (request,response)=>{
 
 //join queries
 router.get("/getAllProductInformation", (request,response) =>{
-    if(request.session.loggedin){
-    db.query(`select products.name, products.description, products.category_id, 
-    products.price, products.quantity, product_category.name AS category
-    from products 
-    inner join product_category on products.category_id = product_category.id`, (err,results) =>{
-        if(err) throw err;
-        response.send({username: request.session.username, userId: request.session.userId,products: results});
-    })
-}else{
-        response.sendStatus(401);
-        response.send("User not authorized");
-    }
+
+db.query(`select products.id ,products.name, products.description, products.category_id, 
+products.price, products.quantity, products.product_img, product_category.name AS category
+from products 
+inner join product_category on products.category_id = product_category.id`, (err,results) =>{
+    if(err) throw err;
+    response.send({username: request.session.username, userId: request.session.userId,products: results});
+
+}) 
 })
 
 module.exports = router;

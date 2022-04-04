@@ -42,6 +42,8 @@ create table cart(
     foreign key(product_id) references products(id)
 );
 
+alter table cart add column quantity int;
+
 --product
 create table product_category(
     id int not null auto_increment,
@@ -96,23 +98,37 @@ insert into products(name,description,category_id,price)values('Hawaiian Sunrise
 
 insert into product_inventory(product_id,quantity)values(1,'250');
 
-insert into cart(user_id,product_id,total)values(1,1,10.00);
+insert into cart(user_id,product_id, quantity)values(1,1, 4);
 
 insert into orders(user_id,product_id,total)values(1,1,10.00);
+
+--conditional insert
+SELECT IF(user_id=1 AND product_id=1, 'true', 'false')
+FROM cart;
 
 
 
 ----*****************************JOIN TABLE QUERIES
+--join user products
 select products.name, products.description, products.category_id, 
 products.price, products.quantity, product_category.name
 from products 
 inner join product_category on products.category_id = product_category.id;
 
+--join product tables
 select users.username, users.first_name, users.last_name, 
-user_address.street_address, user_address.city, user_address.postal_code, user_address.country
+user_address.street_address, user_address.city, user_address.postal_code, user_address.country, 
+user_payment.payment_type, user_payment.account_number, user_payment.expiry
 from users 
-inner join user_address on users.id = user_address.user_id;
+inner join user_address on users.id = user_address.user_id
+inner join user_payment on users.id = user_payment.user_id;
 
+--join cart, user & product table
+select cart.quantity, cart.total, products.name, 
+product_category.name AS category, products.price, products.product_img
+from cart 
+inner join products on cart.product_id = products.id
+inner join product_category on products.category_id = product_category.id;
 
 
 

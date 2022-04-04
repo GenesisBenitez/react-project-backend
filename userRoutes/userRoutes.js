@@ -18,10 +18,10 @@ router.get("/getUser/:id", (request,response) =>{
 });
 
 router.get("/getUserInformation/:id", (request,response) =>{
-    if(request.session.loggedin){
+    if(request.session.loggedIn){
     db.query(`
-    select users.username, users.first_name, users.last_name, 
-    user_address.street_address, user_address.city, user_address.postal_code, user_address.country, 
+    select users.username, users.first_name, users.last_name, users.created_at,
+    user_address.street_address, user_address.city, user_address.state, user_address.postal_code, user_address.country, 
     user_payment.payment_type, user_payment.account_number, user_payment.expiry
     from users 
     inner join user_address on users.id = user_address.user_id
