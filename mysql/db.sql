@@ -92,9 +92,9 @@ insert into user_address(user_id, street_address, city,postal_code,country) valu
 
 insert into user_payment(user_id,payment_type,account_number,expiry) values(1, 'Visa', '4538878462747638', '09/25');
 
-insert into product_category(name,description) values('papaya', 'Papayas grow in tropical climates and are also known as papaws or pawpaws. Their sweet taste, vibrant color, and the wide variety of health benefits they provide make them a popular fruit.');
+insert into product_category(name,description) values('Sugarcane', 'Sugarcane, Saccharum officinarum, is a perennial grass in the family Poaceae grown for its stem (cane) which is primarily used to produce sucrose. Sugarcane has a thick, tillering stem which is clearly divided into nodes and internodes. ');
 
-insert into products(name,description,category_id,price)values('Hawaiian Sunrise Papaya','The pink-orange flesh of the Sunrise (Strawberry) Papaya is firm, but juicy, with one of the sweetest and least acidic flavors of any papaya variety.',1,10.00);
+insert into products(name,description,category_id,price, quantity, product_img)values('Kandahar Pomegranate','Kandahar pomegranate is a variety of Afghan pomegranate that hails from the province of Kandahar. Known as Kandahari anar in Afghanistan, this fruit is renowned for its juiciness, ruby-red arils, and its remarkable size. The fruit is said to have an exceptional flavor and can sometimes weigh up to a kilogram.',3,8.00, 300,'https://cdn.tasteatlas.com/images/ingredients/164935cbffbb48d8ab05ed7ac5848c19.jpg?w=600&h=450');
 
 insert into product_inventory(product_id,quantity)values(1,'250');
 

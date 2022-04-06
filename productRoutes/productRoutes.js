@@ -37,5 +37,20 @@ inner join product_category on products.category_id = product_category.id`, (err
 
 }) 
 })
+router.get('/getProductCategories', (request,response)=>{
+    db.query(`select * from product_category`, (err,results) =>{
+        if(err) throw err;
+        response.send(results);
+    
+    })  
+    
+    router.get("/getProductsByCategory/:id", (request,response) =>{
+        db.query("select * from products where category_id = ?",[request.params.id], (err,results) =>{
+                if(err) throw err;
+                response.send(results);
+            })
+        
+    });
 
+})
 module.exports = router;

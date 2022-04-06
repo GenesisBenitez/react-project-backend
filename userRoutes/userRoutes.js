@@ -11,7 +11,14 @@ router.get("/getAllUsers", (request,response) =>{
 });
 
 router.get("/getUser/:id", (request,response) =>{
-    db.query("select username, first_name, last_name from users where id = ?",[request.params.id], (err,results) =>{
+    db.query("select username, first_name, last_name, created_at from users where id = ?",[request.params.id], (err,results) =>{
+        if(err) throw err;
+        response.send(results);
+    })
+});
+
+router.get("/getUserAddress/:id", (request,response) =>{
+    db.query("select user_id, street_address, city,postal_code,country,state from user_address where user_id = ?",[request.params.id], (err,results) =>{
         if(err) throw err;
         response.send(results);
     })
@@ -41,5 +48,25 @@ router.post("/registerUser", (request,response)=>{
     })
 });
 
+router.post("/registerUserAddress", (request,response)=>{
+    db.query(`insert into user_address(user_id, street_address, city,postal_code,country,state) values(?, ?, ?, ?,?,?)`, [request.body.user_id,request.body.street_address, request.body.city,request.body.postal_code,request.body.country,request.body.state], (err,results) =>{
+        if(err) throw err;
+        response.send("User successfully registered");
+    })
+});
+
+router.post("/registerUserPayment", (request,response)=>{
+    db.query(`insert into user_payment(user_id,payment_type,account_number,expiry) values(?, ?, ?,?)`, [request.body.user_id,request.body.payment_type, request.body.account_number,request.body.expiry], (err,results) =>{
+        if(err) throw err;
+        response.send("User payment successfully added");
+    })
+});
+
+router.get("/getUserPayment/:id", (request,response) =>{
+    db.query("select * from user_payment where user_id = ?",[request.params.id], (err,results) =>{
+        if(err) throw err;
+        response.send(results);
+    })
+});
 
 module.exports = router;
