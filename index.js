@@ -8,6 +8,7 @@ const productRoutes = require('./productRoutes/productRoutes');
 const userRoutes = require('./userRoutes/userRoutes');
 const authRoutes = require('./authRoute/auth');
 const cartRoutes = require('./cartRoutes/cartRoutes');
+const orderRoutes = require('./orderRoutes/orderRoutes');
 
 const app = express();
 const port = 8080;
@@ -29,6 +30,7 @@ app.use('/', authRoutes);
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 app.use('/cart', cartRoutes);
+app.use('/orders', orderRoutes);
 
 app.listen(port, ()=>{
     console.log(`app listening at port ${port}`)

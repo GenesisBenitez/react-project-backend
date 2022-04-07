@@ -76,12 +76,15 @@ create table products(
 create table orders(
     id int not null auto_increment,
     user_id int not null,
+    user_payment_id int not null,
     product_id int not null,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total decimal not null,
+    total decimal(10,2) not null,
+    quantity int not null,
     primary key (id),
     foreign key(user_id) references users(id),
-    foreign key(product_id) references products(id)
+    foreign key(product_id) references products(id),
+    foreign key(user_payment_id) references user_payment(id)
 );
 
 
@@ -100,7 +103,7 @@ insert into product_inventory(product_id,quantity)values(1,'250');
 
 insert into cart(user_id,product_id, quantity)values(1,1, 4);
 
-insert into orders(user_id,product_id,total)values(1,1,10.00);
+insert into orders(user_id,product_id,total, quantity, user_payment_id)values(1,1,10.00,1);
 
 --conditional insert
 SELECT IF(user_id=1 AND product_id=1, 'true', 'false')
@@ -130,5 +133,14 @@ from cart
 inner join products on cart.product_id = products.id
 inner join product_category on products.category_id = product_category.id;
 
+--join orders, products & user_payment table
+select orders.created_at, orders.id, orders.total, orders.quantity,
+products.name,products.id AS product_id, products.price, products.product_img,
+user_payment.id, user_payment.payment_type, user_payment.account_number,
+users.first_name, users.last_name
+from orders 
+inner join products on orders.product_id = products.id
+inner join user_payment on orders.user_payment_id = user_payment.id
+inner join users on orders.user_id = users.id
 
 

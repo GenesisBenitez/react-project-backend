@@ -11,6 +11,14 @@ router.get("/getAllProducts", (request,response) =>{
     
 });
 
+router.get("/getAllProductCategories", (request,response) =>{
+    db.query("select * from product_category", (err,results) =>{
+            if(err) throw err;
+            response.send(results);
+        })
+    
+});
+
 router.get("/getProduct/:id", (request,response) =>{
     db.query("select * from products where id = ?",[request.params.id], (err,results) =>{
         if(err) throw err;
@@ -19,7 +27,7 @@ router.get("/getProduct/:id", (request,response) =>{
 });
 
 router.post("/addProduct", (request,response)=>{
-    db.query(`insert into products(name,description,category_id,price)values(?,?,?,?)`, [request.body.name,request.body.description, request.body.category_id,request.body.price], (err,results) =>{
+    db.query(`insert into products(name,description,category_id,price, quantity, product_img)values(?,?,?,?,?,?)`, [request.body.name,request.body.description, request.body.category_id,request.body.price,request.body.quantity,request.body.product_img], (err,results) =>{
         if(err) throw err;
         response.send("Product successfully added");
     })
@@ -44,13 +52,21 @@ router.get('/getProductCategories', (request,response)=>{
     
     })  
     
-    router.get("/getProductsByCategory/:id", (request,response) =>{
-        db.query("select * from products where category_id = ?",[request.params.id], (err,results) =>{
-                if(err) throw err;
-                response.send(results);
-            })
-        
-    });
 
 })
+
+router.post('/addProductCategory', (request,response)=>{
+    db.query(`insert into product_category(name,description)values(?,?)`,[request.body.name,request.body.description], (err,results) =>{
+        if(err) throw err;
+        response.send("Product Category successfully added");
+    
+    })  
+});
+router.get("/getProductsByCategory/:id", (request,response) =>{
+    db.query("select * from products where category_id = ?",[request.params.id], (err,results) =>{
+            if(err) throw err;
+            response.send(results);
+        })
+    
+});
 module.exports = router;

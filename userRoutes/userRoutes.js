@@ -11,7 +11,7 @@ router.get("/getAllUsers", (request,response) =>{
 });
 
 router.get("/getUser/:id", (request,response) =>{
-    db.query("select username, first_name, last_name, created_at from users where id = ?",[request.params.id], (err,results) =>{
+    db.query("select username, first_name, last_name, created_at, admin from users where id = ?",[request.params.id], (err,results) =>{
         if(err) throw err;
         response.send(results);
     })
@@ -42,7 +42,7 @@ router.get("/getUserInformation/:id", (request,response) =>{
 });
 
 router.post("/registerUser", (request,response)=>{
-    db.query(`insert into users(username, password,first_name,last_name) values(?, ?, ?, ?)`, [request.body.username,request.body.password, request.body.first_name,request.body.last_name], (err,results) =>{
+    db.query(`insert into users(username, password,first_name,last_name, admin) values(?, ?, ?, ?,?)`, [request.body.username,request.body.password, request.body.first_name,request.body.last_name, request.body.admin], (err,results) =>{
         if(err) throw err;
         response.send("User successfully added");
     })
